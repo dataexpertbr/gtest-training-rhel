@@ -22,6 +22,9 @@ Ao final você terá:
 > [!NOTE]
 > **Por que VM e não container?** Um container compartilha o kernel do host e não tem `systemd`, boot nem serviços próprios. A VM é um computador completo, e é nela que o sistema se comporta como no servidor. Além disso, a Red Hat não publica uma imagem Docker "RHEL 8": a imagem base de container é a UBI, que dá acesso só a parte dos repositórios.
 
+> [!NOTE]
+> **Sobre as capturas de tela.** Alguns dados foram ocultados por privacidade: nome do computador, usuário do Windows, endereços de rede e identificadores de hardware. As áreas em branco ou cobertas não indicam erro. Na sua tela, esses campos aparecem preenchidos com os valores do seu ambiente.
+
 ---
 
 ## Fase 0: Preparação
@@ -221,7 +224,7 @@ Clique em **OK**.
 
 ### 3.1 Ligar a VM
 
-Clique com o botão direito na VM, escolha **Conectar** e depois **Iniciar**. No menu de boot, selecione **Install Red Hat Enterprise Linux 8.10**.
+Clique com o botão direito na VM, escolha **Conectar** e depois **Iniciar**. O menu de boot abre com a opção **Test this media & install** destacada. Use a seta para cima para selecionar **Install Red Hat Enterprise Linux 8.10** e tecle Enter. O teste de mídia é dispensável aqui, porque a integridade da ISO já foi conferida no passo 0.4.
 
 ![Menu de boot da ISO do RHEL 8.10](img/06-boot-menu.png)
 
@@ -236,7 +239,7 @@ Selecione **English (United States)**.
 
 Esta é a tela central do instalador. Os itens com alerta laranja são obrigatórios e podem ser configurados em qualquer ordem.
 
-![Tela Installation Summary do instalador](img/07-installation-summary.png)
+Os passos 3.4 a 3.11 percorrem os itens dessa tela, um a um. Ao concluir cada item, o botão **Done** volta para ela.
 
 ### 3.4 Keyboard
 
@@ -295,7 +298,7 @@ Crie o seu usuário e marque **Make this user administrator**.
 
 Clique em **Begin Installation**. A instalação leva de 10 a 20 minutos.
 
-![Instalação em andamento](img/12-instalando.png)
+Uma barra de progresso mostra os pacotes sendo instalados. Não é preciso intervir.
 
 Ao terminar, clique em **Reboot System**.
 
@@ -342,7 +345,11 @@ sudo dnf repolist
 
 A saída deve listar os repositórios **BaseOS** e **AppStream**.
 
-![Saída do dnf repolist com BaseOS e AppStream](img/15-repolist.png)
+```
+repo id                              repo name
+rhel-8-for-x86_64-appstream-rpms     Red Hat Enterprise Linux 8 for x86_64 - AppStream (RPMs)
+rhel-8-for-x86_64-baseos-rpms        Red Hat Enterprise Linux 8 for x86_64 - BaseOS (RPMs)
+```
 
 ```bash
 sudo dnf -y update
