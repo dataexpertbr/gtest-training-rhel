@@ -174,12 +174,36 @@ Clique com o botão direito na VM `RHEL8-Lab` e abra **Configurações**.
 
 ### 2.1 Inicialização Segura
 
-Em **Segurança**, mantenha "Habilitar Inicialização Segura" marcado e troque o modelo para **Autoridade de Certificação UEFI da Microsoft**.
+Em **Segurança**, há dois controles. O que precisa de ação é o segundo:
+
+1. A caixa **Habilitar Inicialização Segura** já vem marcada. Deixe como está.
+2. Na lista **Modelo**, logo abaixo, troque `Microsoft Windows` por **Autoridade de Certificação UEFI da Microsoft**.
+3. Clique em **Aplicar**.
 
 ![Configuração de segurança com o modelo UEFI da Microsoft selecionado](img/05-secure-boot.png)
 
 > [!WARNING]
-> Este é o erro mais comum. O modelo padrão ("Microsoft Windows") só confia no bootloader do Windows. Sem a troca, a VM liga e não inicia o instalador do RHEL.
+> Este é o erro mais comum. Como a caixa já está marcada, o passo parece feito, mas o modelo padrão (`Microsoft Windows`) só confia no bootloader do Windows. Sem trocar o valor da lista, a VM liga e recusa o instalador do RHEL.
+
+Para conferir, abra o PowerShell **como administrador**:
+
+```powershell
+Get-VMFirmware -VMName RHEL8-Lab | Select-Object SecureBoot, SecureBootTemplate
+```
+
+O resultado esperado é:
+
+```
+SecureBoot SecureBootTemplate
+---------- ------------------
+        On MicrosoftUEFICertificateAuthority
+```
+
+Se aparecer `MicrosoftWindows`, corrija com a VM desligada:
+
+```powershell
+Set-VMFirmware -VMName RHEL8-Lab -SecureBootTemplate MicrosoftUEFICertificateAuthority
+```
 
 ### 2.2 Processador
 
@@ -347,7 +371,7 @@ sudo dnf -y update
 | Sintoma | Causa provável | Solução |
 |---|---|---|
 | "Você não tem a permissão necessária" no Hyper-V | Gerenciador aberto sem privilégio | Passo [0.5](#05-abrir-o-hyper-v-como-administrador) |
-| A VM liga e não inicia o instalador | Modelo de Inicialização Segura errado | Passo [2.1](#21-inicialização-segura) |
+| Tela *Virtual Machine Boot Summary* com `The signed image's hash is not allowed (DB)` | Modelo de Inicialização Segura ainda em `Microsoft Windows` | Desligar a VM e refazer o passo [2.1](#21-inicialização-segura) |
 | Instalação falha no meio, com erro de pacote | ISO corrompida | Refazer os passos [0.3](#03-baixar-a-iso) e [0.4](#04-conferir-o-checksum) |
 | Sem internet após o primeiro boot | Interface de rede desligada no instalador | `sudo nmcli connection up eth0` |
 | `dnf` não encontra pacotes | Sistema não registrado | Passo [4.3](#43-registrar-a-subscription) |
