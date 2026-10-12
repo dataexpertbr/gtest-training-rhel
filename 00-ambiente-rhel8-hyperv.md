@@ -1,6 +1,6 @@
 # Módulo 0: Ambiente de estudo com RHEL 8 no Hyper-V
 
-Neste módulo você monta uma máquina virtual com o Red Hat Enterprise Linux 8.10, igual ao sistema usado nos servidores, para praticar o restante do curso sem risco de quebrar nada.
+Neste módulo você monta uma máquina virtual com o Red Hat Enterprise Linux 8.10, para praticar o restante do curso sem risco de quebrar nada.
 
 Ao final você terá:
 
@@ -20,7 +20,7 @@ Ao final você terá:
 - [Problemas comuns](#problemas-comuns)
 
 > [!NOTE]
-> **Por que VM e não container?** Um container compartilha o kernel do host e não tem `systemd`, boot nem serviços próprios. A VM é um computador completo, e é nela que o sistema se comporta como no servidor. Além disso, a Red Hat não publica uma imagem Docker "RHEL 8": a imagem base de container é a UBI, que dá acesso só a parte dos repositórios.
+> **Por que VM e não container?** Um container compartilha o kernel do host e não tem `systemd`, boot nem serviços próprios. A VM é um computador completo, e é nela que o sistema se comporta como um servidor. Além disso, a Red Hat não publica uma imagem Docker "RHEL 8": a imagem base de container é a UBI, que dá acesso só a parte dos repositórios.
 
 > [!NOTE]
 > **Sobre as capturas de tela.** Alguns dados foram ocultados por privacidade: nome do computador, usuário do Windows, endereços de rede e identificadores de hardware. As áreas em branco ou cobertas não indicam erro. Na sua tela, esses campos aparecem preenchidos com os valores do seu ambiente.
@@ -55,15 +55,12 @@ Se retornar `False`, abra o PowerShell **como administrador**, execute o comando
 Enable-WindowsOptionalFeature -Online -FeatureName Microsoft-Hyper-V -All
 ```
 
-> [!IMPORTANT]
-> Em notebook corporativo, habilitar o Hyper-V pode exigir a TI. Resolva isso antes da aula.
-
 ### 0.2 Criar a conta e garantir o acesso de desenvolvedor
 
 1. Acesse <https://developers.redhat.com> e crie uma conta (ou entre com a que você já tem).
 2. Aceite os termos do **Red Hat Developer Program**.
 
-Isso ativa a *Red Hat Developer Subscription for Individuals*: gratuita, para uso pessoal e estudo, com o RHEL completo. Ela não substitui a licença da empresa, então cada pessoa usa a própria conta.
+Isso ativa a *Red Hat Developer Subscription for Individuals*: gratuita, para uso pessoal e estudo, com o RHEL completo.
 
 ![Página do Red Hat Developer com a conta logada](img/0b-conta-developer.png)
 
@@ -188,6 +185,10 @@ Em **Segurança**, há dois controles. O que precisa de ação é o segundo:
 > [!WARNING]
 > Este é o erro mais comum. Como a caixa já está marcada, o passo parece feito, mas o modelo padrão (`Microsoft Windows`) só confia no bootloader do Windows. Sem trocar o valor da lista, a VM liga e recusa o instalador do RHEL.
 
+Se a troca não for feita, é esta a tela que aparece ao ligar a VM. A linha que identifica o problema é `The signed image's hash is not allowed (DB)`:
+
+![Tela Virtual Machine Boot Summary com o erro de Inicialização Segura](img/05b-erro-secure-boot.png)
+
 Para conferir, abra o PowerShell **como administrador**:
 
 ```powershell
@@ -233,7 +234,7 @@ Clique com o botão direito na VM, escolha **Conectar** e depois **Iniciar**. O 
 Selecione **English (United States)**.
 
 > [!TIP]
-> Com o sistema em inglês, as mensagens de erro ficam iguais às da documentação, às dos fóruns e às dos servidores da empresa.
+> Com o sistema em inglês, as mensagens de erro ficam iguais às da documentação, às dos fóruns etc.
 
 ### 3.3 Installation Summary
 
