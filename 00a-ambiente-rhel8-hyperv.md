@@ -1,4 +1,4 @@
-# Módulo 0: Ambiente de estudo com RHEL 8 no Hyper-V
+# Módulo 0A: Ambiente de estudo com RHEL 8 no Hyper-V
 
 Neste módulo você monta uma máquina virtual com o Red Hat Enterprise Linux 8.10, para praticar o restante do curso sem risco de quebrar nada.
 
@@ -387,6 +387,6 @@ sudo dnf -y update
 
 ---
 
-**Próximo módulo:** Módulo 1, Ambiente e fundamentos: GCC, CMake, GoogleTest e o primeiro teste.
+**Próxima parte:** [Módulo 0B: VS Code e ferramentas](00b-ferramentas-vscode.md).
 
 *Work hard. Have fun. Make history.*

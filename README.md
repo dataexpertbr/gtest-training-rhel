@@ -24,16 +24,18 @@ Shift Left e TDD não são capítulos isolados: orientam todos os módulos.
 | Item | Escolha |
 |---|---|
 | Sistema | RHEL 8.10 em máquina virtual (Hyper-V) |
-| Compilador | GCC |
-| Build | CMake |
-| Testes | GoogleTest e GoogleMock |
+| Compilador | GCC 8.5, o padrão do RHEL 8 |
+| Build | CMake 3.26 |
+| Testes | GoogleTest e GoogleMock 1.18.0, obtidos pelo CMake (`FetchContent`) |
+| Editor | VS Code no Windows, conectado à VM por SSH |
 
 ## Módulos
 
 | # | Módulo | Nível | Situação |
 |---|---|---|---|
-| 0 | [Ambiente de estudo com RHEL 8 no Hyper-V](00-ambiente-rhel8-hyperv.md) | Preparação | Disponível |
-| 1 | Ambiente e fundamentos: GCC, CMake, GoogleTest, `TEST`, `EXPECT_*` e `ASSERT_*` | Iniciante | Em preparação |
+| 0A | [Ambiente de estudo com RHEL 8 no Hyper-V](00a-ambiente-rhel8-hyperv.md) | Preparação | Disponível |
+| 0B | [VS Code e ferramentas](00b-ferramentas-vscode.md) | Preparação | Disponível |
+| 1 | Fundamentos: o primeiro projeto de testes, `TEST`, `EXPECT_*` e `ASSERT_*` | Iniciante | Em preparação |
 | 2 | Fundamentos de qualidade de testes: limites, entradas inválidas e oráculos | Iniciante | Planejado |
 | 3 | Organização e reutilização: fixtures, `TEST_F`, `TEST_P` e testes tipados | Intermediário | Planejado |
 | 4 | Recursos avançados do GoogleTest: exceções, death tests, filtros e diagnóstico | Intermediário/avançado | Planejado |
@@ -59,7 +61,7 @@ Shift Left e TDD não são capítulos isolados: orientam todos os módulos.
 - 8 GB de RAM (16 GB recomendado) e 60 GB livres em disco
 - Conta gratuita no [Red Hat Developer Program](https://developers.redhat.com)
 
-Os detalhes estão no [Módulo 0](00-ambiente-rhel8-hyperv.md).
+Os detalhes estão no [Módulo 0A](00a-ambiente-rhel8-hyperv.md).
 
 ## Contribuições
 

@@ -1,0 +1,8 @@
+# Finais de linha: LF no repositório e em todas as cópias de trabalho,
+# inclusive no Windows, independentemente da configuração local do Git.
+* text=auto eol=lf
+
+# Imagens são binárias: nunca converter.
+*.png binary
+*.jpg binary
+*.jpeg binary
