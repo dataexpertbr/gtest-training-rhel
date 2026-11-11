@@ -35,7 +35,7 @@ Shift Left e TDD não são capítulos isolados: orientam todos os módulos.
 |---|---|---|---|
 | 0A | [Ambiente de estudo com RHEL 8 no Hyper-V](00a-ambiente-rhel8-hyperv.md) | Preparação | Disponível |
 | 0B | [VS Code e ferramentas](00b-ferramentas-vscode.md) | Preparação | Disponível |
-| 1 | Fundamentos: o primeiro projeto de testes, `TEST`, `EXPECT_*` e `ASSERT_*` | Iniciante | Em preparação |
+| 1 | [Fundamentos: o primeiro projeto de testes, `TEST`, `EXPECT_*` e `ASSERT_*`](01-fundamentos.md) | Iniciante | Em revisão |
 | 2 | Fundamentos de qualidade de testes: limites, entradas inválidas e oráculos | Iniciante | Planejado |
 | 3 | Organização e reutilização: fixtures, `TEST_F`, `TEST_P` e testes tipados | Intermediário | Planejado |
 | 4 | Recursos avançados do GoogleTest: exceções, death tests, filtros e diagnóstico | Intermediário/avançado | Planejado |
@@ -43,6 +43,8 @@ Shift Left e TDD não são capítulos isolados: orientam todos os módulos.
 | 6 | Cobertura e avaliação: linhas, branches, condições e gcov | Avançado | Planejado |
 | 7 | Testes de mutação: operadores, mutantes e escore de mutação | Avançado | Planejado |
 | 8 | Projeto integrador: geração automática de testes | Aplicação prática | Planejado |
+
+O [mapa da documentação](mapa-documentacao.md) mostra quais partes da documentação oficial do GoogleTest cada módulo cobre.
 
 ## Formato de cada aula
 

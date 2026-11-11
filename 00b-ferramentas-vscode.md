@@ -153,6 +153,35 @@ O pacote traz as duas extensões usadas no curso:
 | **C/C++** | Realce de sintaxe, navegação pelo código e depuração |
 | **CMake Tools** | Configurar, compilar e executar projetos CMake pela interface |
 
+### 5.9 Configurar a análise de código do editor
+
+Enquanto você digita, a extensão C/C++ analisa o código e sublinha os erros. Essa análise (o **IntelliSense**) é independente do compilador: ela não lê o `CMakeLists.txt` e, se ninguém disser como o projeto é compilado, adivinha. No RHEL 8 ela adivinha errado: supõe C++14, o padrão do GCC 8.5, enquanto os projetos do curso usam C++17. O resultado são sublinhados vermelhos em código que compila sem erro.
+
+A solução é mandar o editor usar as opções que o próprio CMake usa. Cada projeto do curso grava essas opções no arquivo `build/compile_commands.json`; falta só apontar o editor para ele.
+
+Na janela conectada à VM:
+
+1. Tecle **F1** e digite `Preferences: Open Remote Settings (JSON)`. Escolha a opção que termina com **(SSH: rhel8-lab)**.
+2. O arquivo pode estar vazio (`{}`) ou já ter outras configurações. Acrescente a linha do `compileCommands` dentro das chaves:
+
+   ```json
+   {
+       "C_Cpp.default.compileCommands": "${workspaceFolder}/build/compile_commands.json"
+   }
+   ```
+
+   Se já houver outras linhas, separe-as com vírgula.
+
+3. Salve.
+
+`${workspaceFolder}` é a pasta aberta no VS Code. Como a configuração é **remota**, ela vale para qualquer pasta que você abrir na VM, e cada projeto usa o seu próprio `build`.
+
+> [!IMPORTANT]
+> **Abra sempre a pasta do projeto**, e não uma pasta acima dela. Se a pasta aberta for, por exemplo, a sua pasta pessoal, o editor procura o arquivo em `/home/seu_usuario/build/compile_commands.json`, não o encontra e volta a adivinhar. O nome no topo do painel **Explorer** mostra qual pasta está aberta.
+
+> [!NOTE]
+> O arquivo `compile_commands.json` só existe depois que o projeto é configurado com `cmake -S . -B build`. Até lá, o editor ainda pode mostrar sublinhados. Se continuarem depois da configuração, recarregue a janela com **F1** e `Developer: Reload Window`.
+
 ---
 
 ## Fase 6: Instalar as ferramentas
@@ -225,6 +254,8 @@ Crie nela o arquivo `CMakeLists.txt`:
 cmake_minimum_required(VERSION 3.16)
 project(valida_ambiente CXX)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
@@ -274,7 +305,15 @@ TEST(Ambiente, FalhaDeProposito)
 
 ### 7.2 Compilar e executar
 
-No terminal do VS Code, dentro da pasta `valida-ambiente`, execute os três comandos, um de cada vez:
+No terminal do VS Code, entre na pasta do projeto e confirme onde está:
+
+```bash
+cd ~/valida-ambiente && pwd
+```
+
+O resultado deve ser `/home/seu_usuario/valida-ambiente`. Os comandos a seguir partem dessa pasta: o `.` do primeiro significa "a pasta atual".
+
+Execute os três comandos, um de cada vez:
 
 ```bash
 cmake -S . -B build
@@ -334,6 +373,7 @@ Agora há dois pontos de retorno: o sistema recém-instalado e o sistema com as 
 | `ssh rhel8-lab` pede senha | A chave pública não foi gravada na VM | Refazer o passo [5.4](#54-enviar-a-chave-pública-para-a-vm) |
 | Aviso `REMOTE HOST IDENTIFICATION HAS CHANGED` | Outra máquina passou a usar o mesmo IP, ou a VM foi reinstalada | No Windows, `ssh-keygen -R IP_DA_VM` e conectar de novo |
 | Realce e navegação de C++ não funcionam na VM | Extensão instalada só no Windows | Passo [5.8](#58-instalar-as-extensões-de-c-na-vm) |
+| O projeto compila, mas o editor sublinha `ASSERT_EQ` e `EXPECT_EQ` com *expression must have bool type* | O editor está analisando o código em C++14, sem as opções do CMake. Causas comuns: a configuração do passo 5.9 não foi feita, o projeto ainda não foi configurado, ou a pasta aberta no VS Code não é a do projeto | Conferir o passo [5.9](#59-configurar-a-análise-de-código-do-editor) e a pasta mostrada no topo do **Explorer**; depois, `cmake -S . -B build` e **Developer: Reload Window** |
 | `cmake: command not found` | CMake não instalado | Passo [6.2](#62-instalar-o-cmake) |
 | O primeiro comando do passo [7.2](#72-compilar-e-executar) falha ao baixar o GoogleTest | VM sem acesso à internet | Testar com `curl -I https://github.com` na VM |
 | Erro de compilação mencionando C++17 | Faltam as linhas `CMAKE_CXX_STANDARD` | Conferir o `CMakeLists.txt` do passo [7.1](#71-criar-o-projeto) |
